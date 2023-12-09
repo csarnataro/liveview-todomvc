@@ -13,9 +13,7 @@ defmodule TodoMvcWeb.TodoLive.Index do
 
     todos = Todos.list_todos()
 
-    filter_info = compute_filter_info(todos)
-
-    Logger.warning(inspect(filter_info))
+    filter_info = compute_filter_info(todos, nil)
 
     {:ok,
      assign(socket, :todo, %Todo{})
@@ -26,39 +24,83 @@ defmodule TodoMvcWeb.TodoLive.Index do
 
   @impl true
   def handle_info(%{event: "todos_updated", payload: %{todos: todos}}, socket) do
-    filter_info = compute_filter_info(todos)
+    filter_info = compute_filter_info(todos, nil)
 
-    {:noreply, socket |> assign(todos: todos) |> assign(filter_info: filter_info)}
+    {:noreply,
+     socket
+     |> assign(todos: todos)
+     |> assign(:total_items, length(todos))
+     |> assign(filter_info: filter_info)}
   end
 
-  # @impl true
-  # def handle_event("toggle_all", _, socket) do
-  #   Logger.warning("toggle_all")
-  #   # # if at least one todo is not completed, then we want to complete all
-  #   # # otherwise, we want to uncomplete all
-  #   # case Todos.list_todos() |> Enum.all?(fn todo -> todo.status end) do
-  #   #   true -> Todos.update_all(status: false)
-  #   #   false -> Todos.update_all(status: true)
-  #   # end
+  @impl true
+  def handle_event("delete_completed", _, socket) do
+    Todos.delete_all_completed()
+    todos = Todos.list_todos()
 
-  #   # TodoMvcWeb.Endpoint.broadcast(@todos_topic, "todos_updated", socket.assigns)
-  #   {:noreply, socket}
-  # end
+    IO.inspect(socket.assigns.filter_info.filter)
 
-  # @impl true
-  # def handle_event(event, params, socket) do
-  #   IO.inspect({event, params}, label: "Got unknown event")
-  #   {:noreply, socket}
-  # end
+    filter = socket.assigns.filter_info.filter
 
-  defp compute_filter_info(todos) do
-    active_count = todos |> Enum.count(fn i -> i.status end)
-    completed_count = todos |> Enum.count(fn i -> !i.status end)
+    status =
+      case filter do
+        "completed" -> true
+        "active" -> false
+        _ -> nil
+      end
+
+    filter =
+      case filter do
+        "all" -> nil
+        _ -> filter
+      end
+
+    todos = Todos.list_todos()
+    filter_info = compute_filter_info(todos, filter)
+
+    filtered_items = todos |> Enum.filter(fn i -> i.status == status || status == nil end)
+
+    {:noreply,
+     socket
+     |> assign(:todos, filtered_items)
+     |> assign(filter_info: filter_info)
+     |> assign(:total_items, length(todos))}
+  end
+
+  @impl true
+  def handle_event("filter", %{"id" => filter}, socket) do
+    status =
+      case filter do
+        "completed" -> true
+        "active" -> false
+        _ -> nil
+      end
+
+    filter =
+      case filter do
+        "all" -> nil
+        _ -> filter
+      end
+
+    todos = Todos.list_todos()
+    filter_info = compute_filter_info(todos, filter)
+
+    filtered_items = todos |> Enum.filter(fn i -> i.status == status || status == nil end)
+
+    {:noreply,
+     socket
+     |> assign(:todos, filtered_items)
+     |> assign(filter_info: filter_info)}
+  end
+
+  defp compute_filter_info(todos, filter) do
+    active_count = todos |> Enum.count(fn i -> !i.status end)
+    completed_count = todos |> Enum.count(fn i -> i.status end)
     show_clear_completed = completed_count > 0
-    remaining_items = length(todos) - active_count
+    remaining_items = length(todos) - completed_count
 
     %{
-      filter: nil,
+      filter: filter,
       active_count: active_count,
       remaining_items: remaining_items,
       highlight_toggle: active_count == length(todos),

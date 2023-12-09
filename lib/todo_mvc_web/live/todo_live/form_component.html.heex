@@ -2,8 +2,6 @@
   <button
     id="toggle-all"
     phx-target={@myself}
-    phx-value-id="all"
-    phx-value="all-all"
     phx-click="toggle_all"
     class={"p-4 flex-0 w-12 text-gray-400 #{if @total_items == 0, do: "invisible"}"}
   >
@@ -23,7 +21,7 @@
     phx-submit="create_todo"
     phx-change="validate"
   >
-    <.todo_input name="todo[text]" autocomplete="off" placeholder="what needs to be done?" />
+    <.todo_input name="todo[text]" autocomplete="off" placeholder="What needs to be done?" />
     <:actions>
       <.button class="hidden">Save</.button>
     </:actions>

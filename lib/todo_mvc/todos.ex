@@ -106,4 +106,9 @@ defmodule TodoMvc.Todos do
   def update_all(updates) do
     Repo.update_all(Todo, set: updates)
   end
+
+  def delete_all_completed() do
+    from(t in Todo, where: t.status)
+    |> Repo.delete_all()
+  end
 end

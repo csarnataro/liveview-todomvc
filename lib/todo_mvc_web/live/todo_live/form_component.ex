@@ -93,7 +93,7 @@ defmodule TodoMvcWeb.TodoLive.FormComponent do
           "sm:text-sm sm:leading-6 phx-no-feedback:border-zinc-300 ",
           "phx-no-feedback:focus:border-zinc-400 border-zinc-300 ",
           "focus:border-zinc-400 border-0 placeholder:italic ",
-          "placeholder:text-slate-400 placeholder:text-xl text-xl sm:text-xl"
+          "placeholder:text-slate-300 placeholder:text-xl text-xl sm:text-xl"
         ]}
         {@rest}
       />
