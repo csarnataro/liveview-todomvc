@@ -1,0 +1,30 @@
+<div class="min-h-screen font-sans">
+  <div class="container mx-auto flex flex-col items-center">
+    <h1 class="font-thin text-opacity-20 text-red-900 text-8xl text-center">todos</h1>
+    <main class="mt-8 shadow-xl w-full max-w-prose bg-white">
+      <div class="mx-auto max-w-2xl">
+        <.flash_group flash={@flash} />
+        <%= @inner_content %>
+      </div>
+    </main>
+  </div>
+  <footer class="mt-16 p-4 flex flex-col">
+    <span class="m-0.5 text-xs text-center text-gray-500">
+      Written by
+      <a class="hover:underline" href="https://csarnataro.github.io">Christian Sarnataro</a>
+    </span>
+    <span class="m-0.5 text-xs text-center text-gray-500">
+      with
+      <a class="hover:underline" href="https://phoenixframework.org/">
+        Phoenix Framework 1.7.1
+      </a>
+      and <a class="hover:underline" href="https://tailwindcss.com/">Tailwind CSS</a>.
+    </span>
+    <span class="m-0.5 text-xs text-center text-gray-500">
+      Mostly compliant to the <a class="hover:underline" href="https://todomvc.com/">TodoMVC</a>
+      <a class="hover:underline" href="https://github.com/tastejs/todomvc/blob/master/app-spec.md">
+        specification
+      </a>
+    </span>
+  </footer>
+</div>

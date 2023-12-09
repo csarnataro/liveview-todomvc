@@ -1,0 +1,41 @@
+<div style="display: contents;">
+  <%= for todo <- @todos do %>
+    <div class="border-t-2 border-gray-100 text-2xl">
+      <div class="flex flex-row group items-center">
+        <button
+          phx-target={@myself}
+          phx-click="toggle_todo"
+          phx-value-id={todo.id}
+          class={[
+            "ml-3 w-8 h-8 flex content-center ",
+            "items-center transparent rounded-full border text-white ",
+            "#{if todo.status, do: "border-slate-200", else: "border-slate-300"}"
+          ]}
+        >
+          <%= if todo.status do %>
+            <.icon
+              name="hero-check"
+              class="text-green-400 h-5 w-5 ml-1 block border border-slate-400"
+            />
+          <% else %>
+            <.icon name="hero-check" class="h-5 w-5 block border border-slate-400" />
+          <% end %>
+        </button>
+        <div class={[
+          "font-extralight flex-1 min-w-0 flex items-center break-all p-4 transition-color duration-500 ease-in-out",
+          "#{if !todo.status, do: "text-gray-800", else: "text-gray-400 line-through"}"
+        ]}>
+          <%= todo.text %>
+        </div>
+        <.link
+          id={"todo-#{todo.id}"}
+          class="w-12 text-red-900 opacity-0 group-hover:opacity-40 p-2"
+          phx-click={JS.push("delete", value: %{id: todo.id}, target: @myself)}
+        >
+          <.icon name="hero-x-mark" class="h-5 w-54" />
+        </.link>
+      </div>
+      <div style="display: contents;"></div>
+    </div>
+  <% end %>
+</div>

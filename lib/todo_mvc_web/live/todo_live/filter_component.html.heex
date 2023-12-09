@@ -1,0 +1,42 @@
+<div>
+  <%= if @total_items > 0 do %>
+    <footer id="filter_component">
+      <div class="text-slate-400 text-xs flex flex-row items-center flex-wrap sm:flex-nowrap p-2 font-light ">
+        <div class="flex-1 flex flex-row order-1 justify-start">
+          <%= @filter_info[:remaining_items] %> items left
+        </div>
+        <div class={
+          ~s'flex-1 flex flex-row order-2 sm:order-3 justify-end #{unless @filter_info[:show_clear_completed], do: "invisible"}'
+        }>
+          <.link href={~p"/clear"} class="block">Clear Completed</.link>
+        </div>
+        <div class="flex-auto flex flex-row order-3 sm:order-2 w-1/2 justify-center">
+          <.link
+            class={
+              ~s'rounded border px-1 mx-2 border-red-100 #{if is_nil(@filter_info[:filter]), do: "!border-red-600"}'
+            }
+            href={~p"/"}
+          >
+            All
+          </.link>
+          <.link
+            class={
+              ~s'rounded border px-1 mx-2 border-red-100 #{if @filter_info[:filter] == "active", do: "!border-red-600"}'
+            }
+            href={~p"/filter/active"}
+          >
+            Active [<%= @filter_info[:active_count] %>]
+          </.link>
+          <.link
+            class={
+              ~s'rounded border px-1 mx-2 border-red-100 #{if @filter_info[:filter] == "completed", do: "!border-red-600"}'
+            }
+            href={~p"/filter/completed"}
+          >
+            Completed [<%= @filter_info[:completed_count] %>]
+          </.link>
+        </div>
+      </div>
+    </footer>
+  <% end %>
+</div>

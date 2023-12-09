@@ -1,0 +1,15 @@
+<.live_component
+  module={TodoMvcWeb.TodoLive.FormComponent}
+  id={:form_component}
+  todo={@todo}
+  total_items={@total_items}
+  filter_info={@filter_info}
+/>
+<.live_component module={TodoMvcWeb.TodoLive.ListComponent} id={:list_component} todos={@todos} />
+
+<.live_component
+  module={TodoMvcWeb.TodoLive.FilterComponent}
+  id={:footer_component}
+  total_items={@total_items}
+  filter_info={@filter_info}
+/>

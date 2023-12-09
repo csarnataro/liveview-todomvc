@@ -1,0 +1,31 @@
+<div class="flex border flex-row text-2xl h-16">
+  <button
+    id="toggle-all"
+    phx-target={@myself}
+    phx-value-id="all"
+    phx-value="all-all"
+    phx-click="toggle_all"
+    class={"p-4 flex-0 w-12 text-gray-400 #{if @total_items == 0, do: "invisible"}"}
+  >
+    <.icon
+      name="hero-chevron-down "
+      class={"h-5 w-5 \
+        #{if @total_items == 0, do: "invisible", else: ""} \
+        #{if @filter_info[:highlight_toggle], do: "text-slate-900 ", else: "text-slate-400"}
+      "}
+    />
+  </button>
+
+  <.todo_form
+    for={@form}
+    id="todo-form"
+    phx-target={@myself}
+    phx-submit="create_todo"
+    phx-change="validate"
+  >
+    <.todo_input name="todo[text]" autocomplete="off" placeholder="what needs to be done?" />
+    <:actions>
+      <.button class="hidden">Save</.button>
+    </:actions>
+  </.todo_form>
+</div>
