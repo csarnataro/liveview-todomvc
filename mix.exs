@@ -4,7 +4,7 @@ defmodule TodoMvc.MixProject do
   def project do
     [
       app: :todo_mvc,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -35,7 +35,7 @@ defmodule TodoMvc.MixProject do
       {:phoenix, "~> 1.7.7"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
-      {:ecto_sqlite3, ">= 0.12.0"},
+      {:ecto_sqlite3, ">= 0.13.0"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.20.1"},

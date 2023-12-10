@@ -7,6 +7,8 @@ defmodule TodoMvc.Application do
 
   @impl true
   def start(_type, _args) do
+    TodoMvc.Release.migrate()
+
     children = [
       # Start the Telemetry supervisor
       TodoMvcWeb.Telemetry,
